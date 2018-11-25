@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import Dao.Meal;
+
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,5 +75,10 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return meals.size();
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+        notifyDataSetChanged();
     }
 }

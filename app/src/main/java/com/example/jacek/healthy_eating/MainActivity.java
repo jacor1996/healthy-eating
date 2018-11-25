@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import Dao.DatabaseHelper;
+import Dao.Meal;
+
 public class MainActivity extends AppCompatActivity {
     private Button buttonManageMeals;
     private Button buttonManageMenus;

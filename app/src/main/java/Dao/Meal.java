@@ -1,6 +1,24 @@
-package com.example.jacek.healthy_eating;
+package Dao;
 
 public class Meal {
+    public static final String TABLE_NAME = "Meals";
+
+    public static final String COLUMN_ID = "Id";
+    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_CALORIES = "Calories";
+    public static final String COLUMN_FATS = "Fats";
+    public static final String COLUMN_PROTEINS = "Proteins";
+    public static final String COLUMN_CARBOHYDRATES = "Carbohydrates";
+
+    public static final String CREATE_TABLE =
+            "CREATE TABLE " + TABLE_NAME + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_NAME + " TEXT,"
+                + COLUMN_CALORIES + " DECIMAL(18,2),"
+                + COLUMN_FATS + " DECIMAL(18,2),"
+                + COLUMN_PROTEINS + " DECIMAL(18,2),"
+                + COLUMN_CARBOHYDRATES + " DECIMAL(18,2) "
+                + ")";
 
     private int id;
     private String name;
@@ -8,6 +26,8 @@ public class Meal {
     private double fats;
     private double proteins;
     private double carbohydrates;
+
+    public Meal() {};
 
     public Meal(int id, String name, double calories, double fats, double proteins, double carbohydrates) {
         this.id = id;
@@ -65,5 +85,4 @@ public class Meal {
     public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
-
 }
