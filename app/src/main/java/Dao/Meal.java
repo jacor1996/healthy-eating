@@ -29,13 +29,17 @@ public class Meal {
 
     public Meal() {};
 
-    public Meal(int id, String name, double calories, double fats, double proteins, double carbohydrates) {
-        this.id = id;
+    public Meal(String name, double calories, double proteins, double fats, double carbohydrates) {
         this.name = name;
         this.calories = calories;
         this.fats = fats;
         this.proteins = proteins;
         this.carbohydrates = carbohydrates;
+    }
+
+    public Meal(int id, String name, double calories, double fats, double proteins, double carbohydrates) {
+        this(name, calories, proteins, fats, carbohydrates);
+        this.id = id;
     }
 
     public int getId() {
