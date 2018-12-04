@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,18 +26,27 @@ public class AddMealActivity extends AppCompatActivity {
 
     private DatabaseHelper db;
 
+    private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
 
-        db = new DatabaseHelper(this);
+        db = DatabaseHelper.getInstance(getApplicationContext());
 
         initializeComponents();
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getIntExtra("Id", -1);
+            if (id >= 0) {
+                seedData(id);
+            }
+        }
     }
 
-    private void addMealToDb() {
+    private void addOrEditMeal() {
         String name = editTextName.getText().toString();
         float calories = Float.parseFloat(editTextCalories.getText().toString());
         float proteins = Float.parseFloat(editTextProteins.getText().toString());
@@ -44,7 +54,22 @@ public class AddMealActivity extends AppCompatActivity {
         float carbohydrates = Float.parseFloat(editTextCarbohydrates.getText().toString());
 
         Meal meal = new Meal(name, calories, proteins, fats, carbohydrates);
-        db.insertMeal(meal);
+
+        Meal mealToEdit = db.getMeal(id);
+        if (mealToEdit != null) {
+            mealToEdit.setName(meal.getName());
+            mealToEdit.setCalories(meal.getCalories());
+            mealToEdit.setProteins(meal.getProteins());
+            mealToEdit.setFats(meal.getFats());
+            mealToEdit.setCarbohydrates(meal.getCarbohydrates());
+
+            db.updateMeal(mealToEdit);
+        }
+
+        else {
+            db.insertMeal(meal);
+        }
+
     }
 
     private void initializeComponents() {
@@ -62,8 +87,22 @@ public class AddMealActivity extends AppCompatActivity {
         buttonAddMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMealToDb();
+                addOrEditMeal();
+                setResult(RESULT_OK, getIntent());
+                finish();
             }
         });
     }
+
+    private void seedData(int id) {
+        Meal meal = db.getMeal(id);
+        if (meal != null) {
+            editTextName.setText(meal.getName());
+            editTextCalories.setText(String.valueOf(meal.getCalories()));
+            editTextFats.setText(String.valueOf(meal.getFats()));
+            editTextProteins.setText(String.valueOf(meal.getProteins()));
+            editTextCarbohydrates.setText(String.valueOf(meal.getCarbohydrates()));
+        }
+    }
+
 }

@@ -1,14 +1,20 @@
 package com.example.jacek.healthy_eating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
+import Dao.DatabaseHelper;
 import Dao.Meal;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
@@ -20,8 +26,10 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         private TextView textViewProteins;
         private TextView textViewCarbohydrates;
 
+        private Button buttonRemoveMeal;
+        private Button buttonEditMeal;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.textViewName);
@@ -29,13 +37,39 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
             textViewFats = itemView.findViewById(R.id.textViewFats);
             textViewProteins = itemView.findViewById(R.id.textViewProteins);
             textViewCarbohydrates = itemView.findViewById(R.id.textViewCarbohydrates);
+
+            buttonEditMeal = itemView.findViewById(R.id.buttonEditMeal);
+            buttonEditMeal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+
+                     Intent editIntent = new Intent(itemView.getContext(), AddMealActivity.class);
+                     editIntent.putExtra("Id", getMealId(position));
+
+                     itemView.getContext().startActivity(editIntent);
+
+                }
+            });
+
+            buttonRemoveMeal = itemView.findViewById(R.id.buttonRemoveMeal);
+            buttonRemoveMeal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    deleteMeal(position);
+                }
+            });
         }
     }
 
     private List<Meal> meals;
+    private DatabaseHelper db;
 
-    public MealsAdapter(List<Meal> meals) {
+    public MealsAdapter(DatabaseHelper db, List<Meal> meals) {
+
         this.meals = meals;
+        this.db = db;
     }
 
     @Override
@@ -58,16 +92,16 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         textViewName.setText(meal.getName());
 
         TextView textViewCalories = viewHolder.textViewCalories;
-        textViewCalories.setText("Calories: " + meal.getCalories());
+        textViewCalories.setText(String.format("Calories: %2.2f", meal.getCalories()));
 
         TextView textViewFats = viewHolder.textViewFats;
-        textViewFats.setText("Fats: " + meal.getFats());
+        textViewFats.setText(String.format("Fats: %2.2f", meal.getFats()));
 
         TextView textViewProteins = viewHolder.textViewProteins;
-        textViewProteins.setText("Proteins: " + meal.getProteins());
+        textViewProteins.setText(String.format("Proteins: %2.2f", meal.getProteins()));
 
         TextView textViewCarbohydrates = viewHolder.textViewCarbohydrates;
-        textViewCarbohydrates.setText("Carbohydrates: " + meal.getCarbohydrates());
+        textViewCarbohydrates.setText(String.format("Carbohydrates: %2.2f", meal.getCarbohydrates()));
 
 
     }
@@ -79,6 +113,25 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
+        notifyDataSetChanged();
+    }
+
+    public void deleteMeal(int position) {
+        Meal mealToDelete = meals.get(position);
+
+        db.deleteMeal(mealToDelete);
+        meals.remove(mealToDelete);
+        notifyDataSetChanged();
+    }
+
+    public int getMealId(int position) {
+        Meal meal = meals.get(position);
+        return meal.getId();
+    }
+
+    public void refresh() {
+        meals.clear();
+        meals.addAll(db.getAllMeals());
         notifyDataSetChanged();
     }
 }

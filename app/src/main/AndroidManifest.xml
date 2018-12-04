@@ -18,8 +18,9 @@
         </activity>
         <activity
             android:name=".ManageMealsActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".AddMealActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".AddMealActivity" />
+        <activity android:name=".UserData"></activity>
     </application>
 
 </manifest>

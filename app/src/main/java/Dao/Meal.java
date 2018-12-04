@@ -20,6 +20,12 @@ public class Meal {
                 + COLUMN_CARBOHYDRATES + " DECIMAL(18,2) "
                 + ")";
 
+    public static final String INSERT_DEFAULT_DATA =
+        "INSERT INTO " + TABLE_NAME +
+                "(" + COLUMN_NAME + ", " + COLUMN_CALORIES + ", " + COLUMN_PROTEINS + ", " + COLUMN_FATS + ", " + COLUMN_CARBOHYDRATES + ")" +
+                " VALUES ('Apple', 50, 2, 0, 14.2), " +
+                "('Cottage cheese', 97, 15.5, 3.5, 2)";
+
     private int id;
     private String name;
     private double calories;

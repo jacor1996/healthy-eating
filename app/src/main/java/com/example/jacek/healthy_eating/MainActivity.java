@@ -31,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonManageMenus = findViewById(R.id.buttonManageMenus);
+        buttonManageMenus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserData.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
