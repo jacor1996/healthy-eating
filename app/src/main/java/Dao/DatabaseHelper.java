@@ -190,7 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(User.COLUMN_WEIGHT, user.getWeight());
         values.put(User.COLUMN_ACTIVITY, user.getActivity());
 
-        return db.update(Meal.TABLE_NAME, values, User.COLUMN_ID + " = ?",
+        return db.update(User.TABLE_NAME, values, User.COLUMN_ID + " = ?",
                 new String[] {String.valueOf(user.getId())});
 
     }
@@ -212,6 +212,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setAge(cursor.getInt(cursor.getColumnIndex(User.COLUMN_AGE)));
                 user.setHeight(cursor.getDouble(cursor.getColumnIndex(User.COLUMN_HEIGHT)));
                 user.setWeight(cursor.getDouble(cursor.getColumnIndex(User.COLUMN_WEIGHT)));
+                user.setActivity(cursor.getDouble(cursor.getColumnIndex(User.COLUMN_ACTIVITY)));
 
                 users.add(user);
             } while (cursor.moveToNext());

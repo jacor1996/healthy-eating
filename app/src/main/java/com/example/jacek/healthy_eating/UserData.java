@@ -72,10 +72,9 @@ public class UserData extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast t = Toast.makeText(getApplicationContext(),
-                        spinnerActivity.getSelectedItem().toString(),
-                        Toast.LENGTH_LONG);
-                t.show();
+                updateUser(user.getId());
+
+                finish();
             }
         });
     }
@@ -85,6 +84,45 @@ public class UserData extends AppCompatActivity {
             editTextAge.setText(String.valueOf(user.getAge()));
             editTextHeight.setText(String.valueOf(user.getHeight()));
             editTextWeight.setText(String.valueOf(user.getWeight()));
+
+        }
+    }
+
+    private void updateUser(int id) {
+        User userToEdit = db.getUser(id);
+
+        User newUserData = new User();
+
+        newUserData.setAge(Integer.parseInt(editTextAge.getText().toString()));
+        newUserData.setHeight(Double.parseDouble(editTextHeight.getText().toString()));
+        newUserData.setWeight(Double.parseDouble(editTextWeight.getText().toString()));
+
+        ActivityLevel activityLevel = (ActivityLevel) spinnerActivity.getSelectedItem();
+        double activityLevelConstant = 0;
+        switch (activityLevel) {
+            case LAZY:
+                activityLevelConstant = 1.1f;
+                break;
+            case MODERATE:
+                activityLevelConstant = 1.3f;
+                break;
+            case ACTIVE:
+                activityLevelConstant = 1.5f;
+                break;
+            case VERY_ACTIVE:
+                activityLevelConstant = 1.7f;
+                break;
+        }
+
+        newUserData.setActivity(activityLevelConstant);
+
+        if (userToEdit != null) {
+            userToEdit.setAge(newUserData.getAge());
+            userToEdit.setHeight(newUserData.getHeight());
+            userToEdit.setWeight(newUserData.getWeight());
+            userToEdit.setActivity(newUserData.getActivity());
+
+            db.updateUser(userToEdit);
         }
     }
 }
