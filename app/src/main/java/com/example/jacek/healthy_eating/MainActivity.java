@@ -15,6 +15,7 @@ import Dao.Meal;
 public class MainActivity extends AppCompatActivity {
     private Button buttonManageMeals;
     private Button buttonManageMenus;
+    private Button buttonEditUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,19 @@ public class MainActivity extends AppCompatActivity {
         buttonManageMenus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserData.class);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);
             }
         });
 
+        buttonEditUser = findViewById(R.id.buttonEditUser);
+        buttonEditUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserData.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
