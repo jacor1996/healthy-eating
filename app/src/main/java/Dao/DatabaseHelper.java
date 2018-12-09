@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.jacek.healthy_eating.UserData;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,12 +36,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(Meal.INSERT_DEFAULT_DATA);
         db.execSQL(User.CREATE_TABLE);
         db.execSQL(User.INSERT_DEFAULT_DATA);
+        db.execSQL(MealData.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Meal.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + User.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MealData.TABLE_NAME);
 
         onCreate(db);
     }
@@ -221,5 +225,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return users;
+    }
+
+    public List<MealData> getAllMealData() {
+        List<MealData> mealsData = new LinkedList<>();
+
+        String selectQuery = "SELECT * FROM " + MealData.TABLE_NAME + " ORDER BY " +
+                MealData.COLUMN_ID + " DESC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                MealData mealData = new MealData();
+
+                mealData.setMealId(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_ID)));
+                mealData.setAmount(cursor.getDouble(cursor.getColumnIndex(MealData.COLUMN_AMOUNT)));
+                mealData.setDate(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_DATE)));
+                mealData.setMealType(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_TYPE)));
+
+                mealsData.add(mealData);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+
+        return mealsData;
+    }
+
+    public long insertMealData(MealData mealData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(MealData.COLUMN_MEAL_ID, mealData.getMealId());
+        values.put(MealData.COLUMN_AMOUNT, mealData.getMealType());
+        values.put(MealData.COLUMN_DATE, mealData.getDate());
+        values.put(MealData.COLUMN_MEAL_TYPE, mealData.getMealType());
+
+        long id = db.insert(MealData.TABLE_NAME, null, values);
+
+        db.close();
+
+        return id;
     }
 }

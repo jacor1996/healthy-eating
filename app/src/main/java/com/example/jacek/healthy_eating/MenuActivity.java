@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CalendarView;
@@ -17,8 +18,11 @@ public class MenuActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Toast t = Toast.makeText(getApplicationContext(), year + " " + month + " " + dayOfMonth, Toast.LENGTH_SHORT);
-                t.show();
+                Intent selectedDayActivity = new Intent(getApplicationContext(), SelectedDayMenuActivity.class);
+                selectedDayActivity.putExtra("Day", dayOfMonth);
+                selectedDayActivity.putExtra("Month", month);
+                selectedDayActivity.putExtra("Year", year);
+                startActivity(selectedDayActivity);
             }
         });
     }

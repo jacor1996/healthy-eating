@@ -2,6 +2,7 @@ package com.example.jacek.healthy_eating;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
         private Button buttonRemoveMeal;
         private Button buttonEditMeal;
+        private Button buttonAddMealToMenu;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -60,6 +62,15 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                     deleteMeal(position);
                 }
             });
+
+            buttonAddMealToMenu = itemView.findViewById(R.id.buttonAddToMenu);
+            buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
     }
 
@@ -102,8 +113,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
         TextView textViewCarbohydrates = viewHolder.textViewCarbohydrates;
         textViewCarbohydrates.setText(String.format("Carbohydrates: %2.2f", meal.getCarbohydrates()));
-
-
     }
 
     @Override

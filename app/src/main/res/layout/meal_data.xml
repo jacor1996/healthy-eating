@@ -7,7 +7,7 @@
     android:paddingBottom="5dp">
 
     <LinearLayout
-        android:layout_width="281dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -44,20 +44,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonEditMeal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonEditMeal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit" />
+
+            <Button
+                android:id="@+id/buttonRemoveMeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remove" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/buttonRemoveMeal"
+            android:id="@+id/buttonAddToMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remove" />
+            android:text="Add To Menu" />
     </LinearLayout>
 
 </LinearLayout>

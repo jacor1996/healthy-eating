@@ -21,7 +21,8 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".AddMealActivity" />
         <activity android:name=".UserData" />
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".SelectedDayMenuActivity"></activity>
     </application>
 
 </manifest>

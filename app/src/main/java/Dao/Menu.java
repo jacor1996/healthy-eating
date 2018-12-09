@@ -40,26 +40,4 @@ public class Menu {
     public void setMeals(List<MealData> meals) {
         this.meals = meals;
     }
-
-    class MealData {
-        private Meal meal;
-        //grams of food
-        private double amount;
-
-        public Meal getMeal() {
-            return meal;
-        }
-
-        public void setMeal(Meal meal) {
-            this.meal = meal;
-        }
-
-        public double getAmount() {
-            return amount;
-        }
-
-        public void setAmount(double amount) {
-            this.amount = amount;
-        }
-    }
 }
