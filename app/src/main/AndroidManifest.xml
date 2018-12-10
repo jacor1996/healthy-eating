@@ -22,7 +22,9 @@
         <activity android:name=".AddMealActivity" />
         <activity android:name=".UserData" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".SelectedDayMenuActivity"></activity>
+        <activity android:name=".SelectedDayMenuActivity" />
+        <activity android:name=".AddMealToMenuActivity" />
+        <activity android:name=".AddMealAmountActivity"></activity>
     </application>
 
 </manifest>

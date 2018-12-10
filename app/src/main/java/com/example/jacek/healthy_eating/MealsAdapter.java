@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.sql.Date;
 import java.util.List;
 
 import Dao.DatabaseHelper;
 import Dao.Meal;
+import Dao.MealData;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
 
@@ -64,18 +66,12 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
             });
 
             buttonAddMealToMenu = itemView.findViewById(R.id.buttonAddToMenu);
-            buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
         }
     }
 
     private List<Meal> meals;
     private DatabaseHelper db;
+    public Context context;
 
     public MealsAdapter(DatabaseHelper db, List<Meal> meals) {
 
@@ -85,7 +81,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     @Override
     public MealsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        //Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View mealView = inflater.inflate(R.layout.meal_data, parent, false);
@@ -113,6 +110,22 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
         TextView textViewCarbohydrates = viewHolder.textViewCarbohydrates;
         textViewCarbohydrates.setText(String.format("Carbohydrates: %2.2f", meal.getCarbohydrates()));
+
+        Button buttonAddMealToMenu = viewHolder.buttonAddMealToMenu;
+        buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MealData mData = new MealData();
+                mData.setMealType(1);
+                java.util.Date date = new java.util.Date();
+                date.getTime();
+                mData.setDate(date.getTime());
+                mData.setAmount(150);
+                mData.setMealId(1);
+
+                db.insertMealData(mData);
+            }
+        });
     }
 
     @Override

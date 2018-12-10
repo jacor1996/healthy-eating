@@ -260,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(MealData.COLUMN_MEAL_ID, mealData.getMealId());
-        values.put(MealData.COLUMN_AMOUNT, mealData.getMealType());
+        values.put(MealData.COLUMN_AMOUNT, mealData.getAmount());
         values.put(MealData.COLUMN_DATE, mealData.getDate());
         values.put(MealData.COLUMN_MEAL_TYPE, mealData.getMealType());
 

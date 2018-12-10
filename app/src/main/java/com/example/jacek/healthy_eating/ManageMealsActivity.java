@@ -49,6 +49,12 @@ public class ManageMealsActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_MEAL_REQUEST);
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int x = extras.getInt("MealType");
+
+        }
     }
 
     @Override

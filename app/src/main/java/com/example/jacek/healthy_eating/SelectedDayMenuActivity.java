@@ -52,8 +52,10 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browseMeals = new Intent(getApplicationContext(), ManageMealsActivity.class);
-
+                Intent browseMeals = new Intent(getApplicationContext(), AddMealToMenuActivity.class);
+                MealType mealType = (MealType)spinnerMealType.getSelectedItem();
+                int mealTypeValue = mealType.ordinal();
+                browseMeals.putExtra("MealType", mealTypeValue);
                 startActivity(browseMeals);
             }
         });
