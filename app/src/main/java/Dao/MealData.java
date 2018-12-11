@@ -1,8 +1,5 @@
 package Dao;
 
-import java.time.Instant;
-import java.util.Date;
-
 public class MealData {
     public static final String TABLE_NAME = "MealsData";
 
@@ -28,6 +25,7 @@ public class MealData {
     private double amount;
     private int mealType;
     private long date;
+    private Meal meal;
 
     public MealData() {}
 
@@ -75,4 +73,12 @@ public class MealData {
     }
 
     public long getDate() { return  date; }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
+    public Meal getMeal() {
+        return meal;
+    }
 }

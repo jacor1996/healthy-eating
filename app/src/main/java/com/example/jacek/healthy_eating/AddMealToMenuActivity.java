@@ -14,9 +14,6 @@ public class AddMealToMenuActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private DatabaseHelper db;
 
-    private int day;
-    private int month;
-    private int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +21,6 @@ public class AddMealToMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_meal_to_menu);
 
         db = DatabaseHelper.getInstance(this);
-
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-            day = bundle.getInt("Day");
-            month = bundle.getInt("Month");
-            year = bundle.getInt("Year");
-        }
 
         recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
         recyclerViewMeals.setHasFixedSize(true);

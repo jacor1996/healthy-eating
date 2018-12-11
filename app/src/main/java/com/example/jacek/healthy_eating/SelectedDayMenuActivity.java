@@ -3,6 +3,7 @@ package com.example.jacek.healthy_eating;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import Dao.DatabaseHelper;
 import Dao.MealType;
 
 public class SelectedDayMenuActivity extends AppCompatActivity {
@@ -22,12 +24,18 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     private ProgressBar progressBarCalories;
     private Spinner spinnerMealType;
     private RecyclerView recyclerViewMeals;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager recyclerViewLayoutManager;
     private Button buttonAddMealToMenu;
+
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_day_menu);
+
+        db = DatabaseHelper.getInstance(this);
 
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
         final Bundle extras = getIntent().getExtras();
@@ -47,6 +55,11 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
 
         recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
+        recyclerViewLayoutManager = new LinearLayoutManager(this);
+        recyclerViewMeals.setLayoutManager(recyclerViewLayoutManager);
+        recyclerViewAdapter = new MealsByMealTypeAdapter(this, db.getAllMealData());
+        recyclerViewMeals.setAdapter(recyclerViewAdapter);
+        //implement showing list of meals sorted by mealtype
 
         buttonAddMealToMenu = findViewById(R.id.buttonAddMealToMenu);
         buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
