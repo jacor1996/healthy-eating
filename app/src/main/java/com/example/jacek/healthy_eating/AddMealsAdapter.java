@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
         // each data item is just a string in this case
         public TextView textViewMeal;
         public Button buttonAdd;
+        public Spinner spinnerMealType;
         public MyViewHolder(View itemView) {
             super(itemView);
             textViewMeal = itemView.findViewById(R.id.textViewMeal);
@@ -67,6 +69,7 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
                 context.startActivity(addMealAmount);
             }
         });
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

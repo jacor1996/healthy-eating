@@ -30,7 +30,7 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selected_day_menu);
 
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         String selectedDate = extras.getInt("Day") + "/" + extras.getInt("Month") + "/" + extras.getInt("Year");
         textViewSelectedDate.setText("Selected date: " + selectedDate);
 
@@ -56,6 +56,9 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
                 MealType mealType = (MealType)spinnerMealType.getSelectedItem();
                 int mealTypeValue = mealType.ordinal();
                 browseMeals.putExtra("MealType", mealTypeValue);
+                browseMeals.putExtra("Day", extras.getInt("Day"));
+                browseMeals.putExtra("Month", extras.getInt("Month"));
+                browseMeals.putExtra("Year", extras.getInt("Year"));
                 startActivity(browseMeals);
             }
         });
