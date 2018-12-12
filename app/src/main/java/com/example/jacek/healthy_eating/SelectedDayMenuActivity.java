@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import Dao.DatabaseHelper;
 import Dao.MealType;
@@ -29,6 +31,8 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     private Button buttonAddMealToMenu;
 
     private DatabaseHelper db;
+    private DateHolder dateHolder;
+    private int mealType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,14 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
         db = DatabaseHelper.getInstance(this);
 
+        initializeComponents();
+    }
+
+    private void initializeComponents() {
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
+        recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
+        buttonAddMealToMenu = findViewById(R.id.buttonAddMealToMenu);
+
         final Bundle extras = getIntent().getExtras();
         String selectedDate = extras.getInt("Day") + "/" + extras.getInt("Month") + "/" + extras.getInt("Year");
         textViewSelectedDate.setText("Selected date: " + selectedDate);
@@ -47,21 +58,34 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         progressBarCarbohydrates = findViewById(R.id.progressBarCarbohydrates);
         progressBarCalories = findViewById(R.id.progressBarCalories);
 
+
+
         spinnerMealType = findViewById(R.id.spinnerMealType);
         final ArrayAdapter<MealType> spinnerAdapter = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item, MealType.values());
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerMealType.setAdapter(spinnerAdapter);
+        spinnerMealType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mealType = ((MealType)spinnerMealType.getSelectedItem()).ordinal();
+                updateRecyclerView();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mealType = 0;
+            }
+        });
 
-        recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
         recyclerViewLayoutManager = new LinearLayoutManager(this);
         recyclerViewMeals.setLayoutManager(recyclerViewLayoutManager);
-        recyclerViewAdapter = new MealsByMealTypeAdapter(this, db.getAllMealData());
-        recyclerViewMeals.setAdapter(recyclerViewAdapter);
-        //implement showing list of meals sorted by mealtype
+        recyclerViewAdapter = new MealsByMealTypeAdapter(this,
+                db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds()));
 
-        buttonAddMealToMenu = findViewById(R.id.buttonAddMealToMenu);
+        recyclerViewMeals.setAdapter(recyclerViewAdapter);
+
+
         buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,5 +99,13 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
                 startActivity(browseMeals);
             }
         });
+    }
+
+    private void updateRecyclerView() {
+        recyclerViewAdapter = new MealsByMealTypeAdapter(this,
+                db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds()));
+
+        recyclerViewMeals.setAdapter(recyclerViewAdapter);
+
     }
 }

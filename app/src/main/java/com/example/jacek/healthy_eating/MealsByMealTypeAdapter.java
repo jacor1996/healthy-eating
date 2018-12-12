@@ -85,4 +85,10 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
     public int getItemCount() {
         return mDataset.size();
     }
+
+    public void setMealsData(List<MealData> myData) {
+        mDataset = myData;
+        notifyDataSetChanged();
+    }
+
 }

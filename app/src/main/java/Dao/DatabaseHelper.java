@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.jacek.healthy_eating.DateConverter;
 import com.example.jacek.healthy_eating.UserData;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -242,7 +246,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 mealData.setMealId(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_ID)));
                 mealData.setAmount(cursor.getDouble(cursor.getColumnIndex(MealData.COLUMN_AMOUNT)));
-                mealData.setDate(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_DATE)));
+                mealData.setDate(cursor.getLong(cursor.getColumnIndex(MealData.COLUMN_DATE)));
                 mealData.setMealType(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_TYPE)));
 
                 mealsData.add(mealData);
@@ -252,6 +256,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return mealsData;
+    }
+
+    public List<MealData> getMealDataByMealType(int mealType) {
+        List<MealData> mealsData = getAllMealData();
+        List<MealData> mealsDataToReturn = new LinkedList<>();
+
+        for (MealData mData: mealsData) {
+            if (mData.getMealType() == mealType) {
+                mealsDataToReturn.add(mData);
+            }
+        }
+
+        return mealsDataToReturn;
+    }
+
+    public List<MealData> getMealDataByMealType(int mealType, long dateInMilliseconds) {
+        List<MealData> mealsData = getAllMealData();
+        List<MealData> mealsDataToReturn = new LinkedList<>();
+
+        String date1 = DateConverter.getDateFromMilliseconds(dateInMilliseconds);
+
+        for (MealData mData: mealsData) {
+            String date2 = DateConverter.getDateFromMilliseconds(mData.getDate());
+
+            if (mData.getMealType() == mealType && date1.equals(date2)) {
+                mealsDataToReturn.add(mData);
+            }
+        }
+
+        return mealsDataToReturn;
     }
 
     public long insertMealData(MealData mealData) {

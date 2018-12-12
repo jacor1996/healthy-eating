@@ -29,7 +29,7 @@ public class MealData {
 
     public MealData() {}
 
-    public MealData(int mealId, double amount, int mealType, int date) {
+    public MealData(int mealId, double amount, int mealType, long date) {
         this.mealId = mealId;
         this.amount = amount;
         this.mealType = mealType;
