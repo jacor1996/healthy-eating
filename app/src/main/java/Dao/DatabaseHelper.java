@@ -244,6 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 MealData mealData = new MealData();
 
+                mealData.setId(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_ID)));
                 mealData.setMealId(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_ID)));
                 mealData.setAmount(cursor.getDouble(cursor.getColumnIndex(MealData.COLUMN_AMOUNT)));
                 mealData.setDate(cursor.getLong(cursor.getColumnIndex(MealData.COLUMN_DATE)));
@@ -288,6 +289,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mealsDataToReturn;
     }
 
+    public List<MealData> getMealDataByDate(long dateInMilliseconds) {
+        List<MealData> mealsData = getAllMealData();
+        List<MealData> mealsDataToReturn = new LinkedList<>();
+
+        String date1 = DateConverter.getDateFromMilliseconds(dateInMilliseconds);
+
+        for (MealData mData: mealsData) {
+            String date2 = DateConverter.getDateFromMilliseconds(mData.getDate());
+
+            if (date1.equals(date2)) {
+                mData.setMeal(getMeal(mData.getMealId()));
+                mealsDataToReturn.add(mData);
+            }
+        }
+
+        return mealsDataToReturn;
+    }
+
     public long insertMealData(MealData mealData) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -303,5 +322,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return id;
+    }
+
+    public MealData getMealData(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                MealData.TABLE_NAME,
+                new String[] {MealData.COLUMN_ID, MealData.COLUMN_MEAL_ID, MealData.COLUMN_MEAL_TYPE, MealData.COLUMN_AMOUNT, MealData.COLUMN_DATE },
+                MealData.COLUMN_ID + " = ?",
+                new String[] {String.valueOf(id)}, null, null, null, null
+        );
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+
+        MealData mealData = new MealData();
+
+        mealData.setMealId(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_ID)));
+        mealData.setAmount(cursor.getDouble(cursor.getColumnIndex(MealData.COLUMN_AMOUNT)));
+        mealData.setDate(cursor.getLong(cursor.getColumnIndex(MealData.COLUMN_DATE)));
+        mealData.setMealType(cursor.getInt(cursor.getColumnIndex(MealData.COLUMN_MEAL_TYPE)));
+        mealData.setMeal(getMeal(mealData.getMealId()));
+
+        cursor.close();
+
+        return mealData;
+    }
+
+    public void deleteMealData(MealData mealData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(MealData.TABLE_NAME, MealData.COLUMN_ID + " = ?",
+                new String[] {String.valueOf(mealData.getId())});
+
+        db.close();
     }
 }

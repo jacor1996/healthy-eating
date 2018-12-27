@@ -15,7 +15,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import Dao.DatabaseHelper;
+import Dao.MealData;
 import Dao.MealType;
 
 public class SelectedDayMenuActivity extends AppCompatActivity {
@@ -33,6 +37,8 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private DateHolder dateHolder;
     private int mealType;
+    private MacroNutrientsHelper macroNutrientsHelper;
+    private List<MealData> mealDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +46,10 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selected_day_menu);
 
         db = DatabaseHelper.getInstance(this);
+        mealDataList = new LinkedList<>();
 
         initializeComponents();
+        setProgressBars();
     }
 
     private void initializeComponents() {
@@ -80,10 +88,12 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
         recyclerViewLayoutManager = new LinearLayoutManager(this);
         recyclerViewMeals.setLayoutManager(recyclerViewLayoutManager);
-        recyclerViewAdapter = new MealsByMealTypeAdapter(this,
-                db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds()));
 
-        recyclerViewMeals.setAdapter(recyclerViewAdapter);
+        //mealDataList = db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds());
+        //recyclerViewAdapter = new MealsByMealTypeAdapter(this, mealDataList);
+        //recyclerViewMeals.setAdapter(recyclerViewAdapter);
+
+        updateRecyclerView();
 
 
         buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +112,17 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     }
 
     private void updateRecyclerView() {
-        recyclerViewAdapter = new MealsByMealTypeAdapter(this,
-                db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds()));
-
+        mealDataList = db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds());
+        recyclerViewAdapter = new MealsByMealTypeAdapter(this, mealDataList);
         recyclerViewMeals.setAdapter(recyclerViewAdapter);
+    }
 
+    private void setProgressBars() {
+        macroNutrientsHelper = new MacroNutrientsHelper(db.getMealDataByDate(DateHolder.getDateInMilliseconds()));
+
+        progressBarFats.setProgress((int)macroNutrientsHelper.getFats());
+        progressBarProteins.setProgress((int)macroNutrientsHelper.getProteins());
+        progressBarCarbohydrates.setProgress((int)macroNutrientsHelper.getCarbohydrates());
+        progressBarCalories.setProgress((int)macroNutrientsHelper.getCalories());
     }
 }

@@ -72,8 +72,9 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast t = Toast.makeText(context.getApplicationContext(), "Remove", Toast.LENGTH_SHORT);
-                t.show();
+                mDataset.remove(mealData);
+                db.deleteMealData(mealData);
+                notifyDataSetChanged();
             }
         });
 
@@ -89,6 +90,11 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
     public void setMealsData(List<MealData> myData) {
         mDataset = myData;
         notifyDataSetChanged();
+    }
+
+    public int getMealDataId(int position) {
+        MealData mealData = mDataset.get(position);
+        return mealData.getId();
     }
 
 }
