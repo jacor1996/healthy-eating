@@ -55,17 +55,18 @@ public class AddMealActivity extends AppCompatActivity {
 
         Meal meal = new Meal(name, calories, proteins, fats, carbohydrates);
 
-        Meal mealToEdit = db.getMeal(id);
-        if (mealToEdit != null) {
-            mealToEdit.setName(meal.getName());
-            mealToEdit.setCalories(meal.getCalories());
-            mealToEdit.setProteins(meal.getProteins());
-            mealToEdit.setFats(meal.getFats());
-            mealToEdit.setCarbohydrates(meal.getCarbohydrates());
+        if (id >= 0) {
+            Meal mealToEdit = db.getMeal(id);
+            if (mealToEdit != null) {
+                mealToEdit.setName(meal.getName());
+                mealToEdit.setCalories(meal.getCalories());
+                mealToEdit.setProteins(meal.getProteins());
+                mealToEdit.setFats(meal.getFats());
+                mealToEdit.setCarbohydrates(meal.getCarbohydrates());
 
-            db.updateMeal(mealToEdit);
+                db.updateMeal(mealToEdit);
+            }
         }
-
         else {
             db.insertMeal(meal);
         }

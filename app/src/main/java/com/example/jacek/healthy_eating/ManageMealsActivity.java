@@ -62,7 +62,9 @@ public class ManageMealsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_MEAL_REQUEST) {
             if (resultCode == RESULT_OK) {
-                mealsAdapter.setMeals(db.getAllMeals());
+                //mealsAdapter.setMeals();
+                //mealsAdapter.notifyDataSetChanged();
+                mealsAdapter.notifyDataSetChanged();
             }
         }
     }

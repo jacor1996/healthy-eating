@@ -2,23 +2,16 @@ package com.example.jacek.healthy_eating;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.sql.Date;
 import java.util.List;
-
 import Dao.DatabaseHelper;
 import Dao.Meal;
-import Dao.MealData;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
 
@@ -31,7 +24,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
         private Button buttonRemoveMeal;
         private Button buttonEditMeal;
-        private Button buttonAddMealToMenu;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -65,7 +57,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                 }
             });
 
-            buttonAddMealToMenu = itemView.findViewById(R.id.buttonAddToMenu);
         }
     }
 
@@ -81,7 +72,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     @Override
     public MealsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //Context context = parent.getContext();
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -111,21 +101,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         TextView textViewCarbohydrates = viewHolder.textViewCarbohydrates;
         textViewCarbohydrates.setText(String.format("Carbohydrates: %2.2f", meal.getCarbohydrates()));
 
-        Button buttonAddMealToMenu = viewHolder.buttonAddMealToMenu;
-        buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MealData mData = new MealData();
-                mData.setMealType(1);
-                java.util.Date date = new java.util.Date();
-                date.getTime();
-                mData.setDate(date.getTime());
-                mData.setAmount(150);
-                mData.setMealId(1);
-
-                db.insertMealData(mData);
-            }
-        });
     }
 
     @Override
@@ -133,8 +108,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         return meals.size();
     }
 
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
+    public void setMeals() {
+        this.meals = DatabaseHelper.getInstance(context.getApplicationContext()).getAllMeals();
         notifyDataSetChanged();
     }
 
@@ -149,11 +124,5 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     public int getMealId(int position) {
         Meal meal = meals.get(position);
         return meal.getId();
-    }
-
-    public void refresh() {
-        meals.clear();
-        meals.addAll(db.getAllMeals());
-        notifyDataSetChanged();
     }
 }
