@@ -24,6 +24,7 @@ import Dao.MealType;
 
 public class SelectedDayMenuActivity extends AppCompatActivity {
     private TextView textViewSelectedDate;
+    private TextView textViewCalories, textViewFats, textViewProteins, getTextViewCarbohydrates;
     private ProgressBar progressBarProteins;
     private ProgressBar progressBarFats;
     private ProgressBar progressBarCarbohydrates;
@@ -47,10 +48,14 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
         db = DatabaseHelper.getInstance(this);
         mealDataList = new LinkedList<>();
+        macroNutrientsHelper = new MacroNutrientsHelper(db.getMealDataByDate(DateHolder.getDateInMilliseconds()), db.getUser(1));
 
         initializeComponents();
         setProgressBars();
+        setTextViews();
     }
+
+
 
     private void initializeComponents() {
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
@@ -66,7 +71,10 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         progressBarCarbohydrates = findViewById(R.id.progressBarCarbohydrates);
         progressBarCalories = findViewById(R.id.progressBarCalories);
 
-
+        textViewCalories = findViewById(R.id.textViewCalories);
+        textViewFats = findViewById(R.id.textViewFats);
+        textViewProteins = findViewById(R.id.textViewProteins);
+        getTextViewCarbohydrates = findViewById(R.id.textViewCarbohydrates);
 
         spinnerMealType = findViewById(R.id.spinnerMealType);
         final ArrayAdapter<MealType> spinnerAdapter = new ArrayAdapter<>(this,
@@ -88,10 +96,6 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
         recyclerViewLayoutManager = new LinearLayoutManager(this);
         recyclerViewMeals.setLayoutManager(recyclerViewLayoutManager);
-
-        //mealDataList = db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds());
-        //recyclerViewAdapter = new MealsByMealTypeAdapter(this, mealDataList);
-        //recyclerViewMeals.setAdapter(recyclerViewAdapter);
 
         updateRecyclerView();
 
@@ -118,11 +122,21 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     }
 
     private void setProgressBars() {
-        macroNutrientsHelper = new MacroNutrientsHelper(db.getMealDataByDate(DateHolder.getDateInMilliseconds()));
+        progressBarFats.setProgress(macroNutrientsHelper.getCurrentFatsPercentage());
+        progressBarProteins.setProgress(macroNutrientsHelper.getCurrentProteinsPercentage());
+        progressBarCarbohydrates.setProgress(macroNutrientsHelper.getCurrentCarbohydratesPercentage());
+        progressBarCalories.setProgress(macroNutrientsHelper.getCurrentCaloriesPercentage());
+    }
 
-        progressBarFats.setProgress((int)macroNutrientsHelper.getFats());
-        progressBarProteins.setProgress((int)macroNutrientsHelper.getProteins());
-        progressBarCarbohydrates.setProgress((int)macroNutrientsHelper.getCarbohydrates());
-        progressBarCalories.setProgress((int)macroNutrientsHelper.getCalories());
+    private void setTextViews() {
+        String calories = String.format("Calories: %.2f / %.2f", macroNutrientsHelper.getCalories(), macroNutrientsHelper.getCaloriesLimit());
+        String proteins = String.format("Proteins: %.2f / %.2f", macroNutrientsHelper.getProteins(), macroNutrientsHelper.getProteinsLimit());
+        String fats = String.format("Fats: %.2f / %.2f", macroNutrientsHelper.getFats(), macroNutrientsHelper.getFatsLimit());
+        String carbohydrates = String.format("Carbs: %.2f / %.2f", macroNutrientsHelper.getCarbohydrates(), macroNutrientsHelper.getCarbohydratesLimit());
+
+        textViewCalories.setText(calories);
+        textViewProteins.setText(proteins);
+        textViewFats.setText(fats);
+        getTextViewCarbohydrates.setText(carbohydrates);
     }
 }
