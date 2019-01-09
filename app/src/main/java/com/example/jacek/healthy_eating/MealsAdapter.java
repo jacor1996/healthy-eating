@@ -26,6 +26,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         private Button buttonRemoveMeal;
         private Button buttonEditMeal;
 
+        private static final int ADD_MEAL_REQUEST = 1;
+
         public ViewHolder(final View itemView) {
             super(itemView);
 
@@ -44,7 +46,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                      Intent editIntent = new Intent(itemView.getContext(), AddMealActivity.class);
                      editIntent.putExtra("Id", getMealId(position));
 
-                    ((Activity) context).startActivityForResult(editIntent, 1);
+                    ((Activity) context).startActivityForResult(editIntent, ADD_MEAL_REQUEST);
 
 
                 }

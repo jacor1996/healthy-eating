@@ -19,6 +19,10 @@ public class MacroNutrientsHelper {
     private double carbohydratesLimit;
     private double caloriesLimit;
 
+    private final double fatsPerGram = 9;
+    private final double proteinsPerGram = 4.5;
+    private final double carbsPerGram = 4.5;
+
     public double getCalories() {
         return calories;
     }
@@ -82,11 +86,11 @@ public class MacroNutrientsHelper {
         final int macroNutrientsPer100grams = 100;
         for (MealData mData :
                 mealDataList) {
-            proteins += mData.getMeal().getProteins()/ macroNutrientsPer100grams * mData.getAmount();
+            proteins += mData.getMeal().getProteins() / macroNutrientsPer100grams * mData.getAmount();
 
-            fats += mData.getMeal().getFats()/ macroNutrientsPer100grams * mData.getAmount();
+            fats += mData.getMeal().getFats() / macroNutrientsPer100grams * mData.getAmount();
 
-            carbohydrates += mData.getMeal().getCarbohydrates()/ macroNutrientsPer100grams * mData.getAmount();
+            carbohydrates += mData.getMeal().getCarbohydrates() / macroNutrientsPer100grams * mData.getAmount();
 
             calories += mData.getMeal().getCalories() / macroNutrientsPer100grams * mData.getAmount();
         }
@@ -98,9 +102,9 @@ public class MacroNutrientsHelper {
         double fatsPart = 0.3;
 
         caloriesLimit = computeUserBMR() * user.getActivity();
-        proteinsLimit = caloriesLimit * proteinsPart;
-        fatsLimit = caloriesLimit * fatsPart;
-        carbohydratesLimit = caloriesLimit * carbohydratesPart;
+        proteinsLimit = caloriesLimit * proteinsPart / proteinsPerGram;
+        fatsLimit = caloriesLimit * fatsPart / fatsPerGram;
+        carbohydratesLimit = caloriesLimit * carbohydratesPart / carbsPerGram;
     }
 
     public double computeUserBMR() {

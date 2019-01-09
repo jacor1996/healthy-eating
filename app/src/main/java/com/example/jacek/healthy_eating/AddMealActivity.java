@@ -70,7 +70,6 @@ public class AddMealActivity extends AppCompatActivity {
         else {
             db.insertMeal(meal);
         }
-
     }
 
     private void initializeComponents() {
