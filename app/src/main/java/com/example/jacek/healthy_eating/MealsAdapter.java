@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                      Intent editIntent = new Intent(itemView.getContext(), AddMealActivity.class);
                      editIntent.putExtra("Id", getMealId(position));
 
-                     itemView.getContext().startActivity(editIntent);
+                    ((Activity) context).startActivityForResult(editIntent, 1);
+
 
                 }
             });
@@ -64,15 +66,16 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     private DatabaseHelper db;
     public Context context;
 
-    public MealsAdapter(DatabaseHelper db, List<Meal> meals) {
+    public MealsAdapter(DatabaseHelper db, List<Meal> meals, Context context) {
 
         this.meals = meals;
         this.db = db;
+        this.context = context;
     }
 
     @Override
     public MealsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        //context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View mealView = inflater.inflate(R.layout.meal_data, parent, false);
@@ -83,7 +86,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MealsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final MealsAdapter.ViewHolder viewHolder, int position) {
         Meal meal = meals.get(position);
 
         TextView textViewName = viewHolder.textViewName;

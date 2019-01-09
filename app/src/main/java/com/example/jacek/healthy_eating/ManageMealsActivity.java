@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class ManageMealsActivity extends AppCompatActivity {
         meals = db.getAllMeals();
 
         recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
-        mealsAdapter = new MealsAdapter(db, meals);
+        mealsAdapter = new MealsAdapter(db, meals, this);
         recyclerViewMeals.setAdapter(mealsAdapter);
         recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
 
@@ -59,11 +60,10 @@ public class ManageMealsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_MEAL_REQUEST) {
             if (resultCode == RESULT_OK) {
-                //mealsAdapter.setMeals();
-                //mealsAdapter.notifyDataSetChanged();
+                meals.clear();
+                meals.addAll(db.getAllMeals());
                 mealsAdapter.notifyDataSetChanged();
             }
         }
