@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ public class AddMealToMenuActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private DatabaseHelper db;
 
+    private static final int ADD_MEAL_REQUEST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +27,24 @@ public class AddMealToMenuActivity extends AppCompatActivity {
         recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
         recyclerViewMeals.setHasFixedSize(true);
 
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         recyclerViewMeals.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
         mAdapter = new AddMealsAdapter(this, db.getAllMeals());
         recyclerViewMeals.setAdapter(mAdapter);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_MEAL_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 }

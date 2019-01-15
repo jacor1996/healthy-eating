@@ -77,7 +77,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     @Override
     public MealsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View mealView = inflater.inflate(R.layout.meal_data, parent, false);

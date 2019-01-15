@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -23,11 +24,7 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
     private Context context;
     private DatabaseHelper db;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public TextView textViewMeal;
         public TextView textViewAmount;
         public ImageButton buttonRemove;
@@ -40,27 +37,23 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public MealsByMealTypeAdapter(Context context, List<MealData> myDataset) {
         mDataset = myDataset;
         this.context = context;
         db = DatabaseHelper.getInstance(context);
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public MealsByMealTypeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View mealView = inflater.inflate(R.layout.meal_by_meal_type, parent, false);
-        // create a new view
 
         MealsByMealTypeAdapter.MyViewHolder vh = new MealsByMealTypeAdapter.MyViewHolder(mealView);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MealsByMealTypeAdapter.MyViewHolder holder, final int position) {
         final MealData mealData = mDataset.get(position);
@@ -74,14 +67,12 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
             public void onClick(View v) {
                 mDataset.remove(mealData);
                 db.deleteMealData(mealData);
+                ((Activity) context).setResult(Activity.RESULT_OK);
                 notifyDataSetChanged();
             }
         });
-
-
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();

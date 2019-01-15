@@ -3,6 +3,7 @@ package com.example.jacek.healthy_eating;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -40,6 +41,8 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
     private int mealType;
     private MacroNutrientsHelper macroNutrientsHelper;
     private List<MealData> mealDataList;
+
+    private final static int ADD_MEAL_REQUEST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +99,9 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
 
         recyclerViewLayoutManager = new LinearLayoutManager(this);
         recyclerViewMeals.setLayoutManager(recyclerViewLayoutManager);
-
-        updateRecyclerView();
-
+        recyclerViewMeals.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerViewAdapter = new MealsByMealTypeAdapter(this, mealDataList);
+        recyclerViewMeals.setAdapter(recyclerViewAdapter);
 
         buttonAddMealToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,15 +113,15 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
                 browseMeals.putExtra("Day", extras.getInt("Day"));
                 browseMeals.putExtra("Month", extras.getInt("Month"));
                 browseMeals.putExtra("Year", extras.getInt("Year"));
-                startActivity(browseMeals);
+                startActivityForResult(browseMeals, ADD_MEAL_REQUEST);
             }
         });
     }
 
     private void updateRecyclerView() {
-        mealDataList = db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds());
-        recyclerViewAdapter = new MealsByMealTypeAdapter(this, mealDataList);
-        recyclerViewMeals.setAdapter(recyclerViewAdapter);
+        mealDataList.clear();
+        mealDataList.addAll(db.getMealDataByMealType(mealType, DateHolder.getDateInMilliseconds()));
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void setProgressBars() {
@@ -138,5 +141,20 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         textViewProteins.setText(proteins);
         textViewFats.setText(fats);
         getTextViewCarbohydrates.setText(carbohydrates);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_MEAL_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                updateRecyclerView();
+                macroNutrientsHelper.updateMealDataList(db.getMealDataByDate(DateHolder.getDateInMilliseconds()));
+                setTextViews();
+                setProgressBars();
+
+            }
+        }
     }
 }

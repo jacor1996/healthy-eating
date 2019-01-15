@@ -1,5 +1,6 @@
 package com.example.jacek.healthy_eating;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import Dao.Meal;
 public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyViewHolder> {
     private List<Meal> mDataset;
     private Context context;
+    private static final int ADD_MEAL_REQUEST = 2;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -66,7 +68,7 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
             public void onClick(View v) {
                 Intent addMealAmount = new Intent(context, AddMealAmountActivity.class);
                 addMealAmount.putExtra("MealId", meal.getId());
-                context.startActivity(addMealAmount);
+                ((Activity)context).startActivityForResult(addMealAmount, ADD_MEAL_REQUEST);
             }
         });
 

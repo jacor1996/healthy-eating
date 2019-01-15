@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AddMealActivity">
 
     <LinearLayout
@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Name" />
 
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/textViewCalories"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Calories" />
 
@@ -55,9 +55,8 @@
 
         <TextView
             android:id="@+id/textViewProteins"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Proteins" />
 
         <EditText
@@ -76,9 +75,8 @@
 
         <TextView
             android:id="@+id/textViewFats"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Fats" />
 
         <EditText
@@ -97,9 +95,8 @@
 
         <TextView
             android:id="@+id/textViewCarbohydrates"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Carbohydrates" />
 
         <EditText

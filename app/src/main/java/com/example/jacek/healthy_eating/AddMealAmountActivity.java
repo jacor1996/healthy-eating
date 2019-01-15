@@ -97,6 +97,7 @@ public class AddMealAmountActivity extends AppCompatActivity {
 
                 db.insertMealData(mealData);
 
+                setResult(RESULT_OK);
                 finish();
             }
         });

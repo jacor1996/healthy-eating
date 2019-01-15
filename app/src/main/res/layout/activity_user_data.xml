@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/textViewAge"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Age" />
@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/textViewHeight"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Height [cm]" />
@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/textViewWeight"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Weight [kg]" />

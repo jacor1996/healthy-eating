@@ -82,10 +82,15 @@ public class MacroNutrientsHelper {
         computeMacronutrientsLimits();
     }
 
+    public void updateMealDataList(List<MealData> mealData) {
+        this.mealDataList = mealData;
+        computeMacronutrients();
+        computeMacronutrientsLimits();
+    }
+
     private void computeMacronutrients() {
         final int macroNutrientsPer100grams = 100;
-        for (MealData mData :
-                mealDataList) {
+        for (MealData mData : mealDataList) {
             proteins += mData.getMeal().getProteins() / macroNutrientsPer100grams * mData.getAmount();
 
             fats += mData.getMeal().getFats() / macroNutrientsPer100grams * mData.getAmount();
