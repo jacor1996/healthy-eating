@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,13 +21,9 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
     private Context context;
     private static final int ADD_MEAL_REQUEST = 2;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public TextView textViewMeal;
-        public Button buttonAdd;
+        public ImageButton buttonAdd;
         public Spinner spinnerMealType;
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -35,30 +32,24 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public AddMealsAdapter(Context context, List<Meal> myDataset) {
         mDataset = myDataset;
         this.context = context;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public AddMealsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View mealView = inflater.inflate(R.layout.meal_add_data, parent, false);
-        // create a new view
 
         MyViewHolder vh = new MyViewHolder(mealView);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         final Meal meal = mDataset.get(position);
 
         holder.textViewMeal.setText(meal.getName());
@@ -74,7 +65,6 @@ public class AddMealsAdapter extends RecyclerView.Adapter<AddMealsAdapter.MyView
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();

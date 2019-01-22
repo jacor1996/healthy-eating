@@ -84,6 +84,10 @@ public class MacroNutrientsHelper {
 
     public void updateMealDataList(List<MealData> mealData) {
         this.mealDataList = mealData;
+        this.fats = 0;
+        this.proteins = 0;
+        this.carbohydrates = 0;
+        this.calories = 0;
         computeMacronutrients();
         computeMacronutrientsLimits();
     }

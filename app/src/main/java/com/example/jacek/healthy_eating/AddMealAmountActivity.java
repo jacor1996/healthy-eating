@@ -61,7 +61,6 @@ public class AddMealAmountActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 if (s.length() > 0) {
                     amount = Double.parseDouble(s.toString());
                     double calories = CaloriesHelper.getCaloriesForMeal(meal, amount);
@@ -69,7 +68,6 @@ public class AddMealAmountActivity extends AppCompatActivity {
                 } else {
                     textViewCalories.setText("Specify valid value!");
                 }
-
             }
         });
 

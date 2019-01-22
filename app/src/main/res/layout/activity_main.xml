@@ -4,24 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/tomato_logo_2" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
         <Button
             android:id="@+id/buttonManageMeals"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Manage meals" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
         <Button
             android:id="@+id/buttonManageMenus"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Manage menus" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
         <Button
             android:id="@+id/buttonEditUser"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit User" />
 

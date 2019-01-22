@@ -58,8 +58,6 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         setTextViews();
     }
 
-
-
     private void initializeComponents() {
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
         recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
@@ -89,6 +87,8 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mealType = ((MealType)spinnerMealType.getSelectedItem()).ordinal();
                 updateRecyclerView();
+
+                updateMacroNutrientsHelper();
             }
 
             @Override
@@ -143,6 +143,12 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         getTextViewCarbohydrates.setText(carbohydrates);
     }
 
+    private void updateMacroNutrientsHelper() {
+        macroNutrientsHelper.updateMealDataList(db.getMealDataByDate(DateHolder.getDateInMilliseconds()));
+        setTextViews();
+        setProgressBars();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,10 +156,7 @@ public class SelectedDayMenuActivity extends AppCompatActivity {
         if (requestCode == ADD_MEAL_REQUEST) {
             if (resultCode == RESULT_OK) {
                 updateRecyclerView();
-                macroNutrientsHelper.updateMealDataList(db.getMealDataByDate(DateHolder.getDateInMilliseconds()));
-                setTextViews();
-                setProgressBars();
-
+                updateMacroNutrientsHelper();
             }
         }
     }

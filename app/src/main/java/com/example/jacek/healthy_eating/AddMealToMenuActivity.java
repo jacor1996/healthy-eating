@@ -32,8 +32,6 @@ public class AddMealToMenuActivity extends AppCompatActivity {
 
         mAdapter = new AddMealsAdapter(this, db.getAllMeals());
         recyclerViewMeals.setAdapter(mAdapter);
-
-
     }
 
     @Override

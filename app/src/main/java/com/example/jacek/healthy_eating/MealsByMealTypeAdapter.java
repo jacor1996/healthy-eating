@@ -67,7 +67,6 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
             public void onClick(View v) {
                 mDataset.remove(mealData);
                 db.deleteMealData(mealData);
-                ((Activity) context).setResult(Activity.RESULT_OK);
                 notifyDataSetChanged();
             }
         });
@@ -77,15 +76,4 @@ public class MealsByMealTypeAdapter extends RecyclerView.Adapter<MealsByMealType
     public int getItemCount() {
         return mDataset.size();
     }
-
-    public void setMealsData(List<MealData> myData) {
-        mDataset = myData;
-        notifyDataSetChanged();
-    }
-
-    public int getMealDataId(int position) {
-        MealData mealData = mDataset.get(position);
-        return mealData.getId();
-    }
-
 }
